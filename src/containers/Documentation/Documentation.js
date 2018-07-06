@@ -70,7 +70,7 @@ const enhance = compose(
         if (documetations && documetations.Items.length) {
           const qtaList = map(documetations.Items, item => item.qtd);
           const acount = reduce(qtaList, (previ, next) => previ + next);
-          console.log(acount);
+          if (__DEV__) console.log("Documentation.js - handlePress", acount);
           setCount(`${isNumber(acount)} L`);
         }
         setStatements(true);
@@ -122,7 +122,7 @@ export const Documentation = enhance(
             />
           </WrapperHeader>
           <WrapperItem>
-            {isStatements && (
+            {/* {isStatements && (
               <DocumentationItem
                 month={searchPeriod}
                 info
@@ -131,10 +131,16 @@ export const Documentation = enhance(
                 description="Demonstrativo de pagamento"
                 value={count}
               />
-            )}
+            )} */}
+            <DocumentationItem
+              info
+              route="StatementOfPayment"
+              icon="statement"
+              description="Demonstrativo de pagamento"
+            />
             <DocumentationItem
               light
-              route="StatementOfPayment"
+              route="PriceMinimum"
               icon="currency-usd"
               description="Preço minimo"
             />
@@ -153,8 +159,8 @@ export const Documentation = enhance(
             <DocumentationItem
               warningLigth
               icon="alert"
-              route="StatementOfPayment"
-              description="Resultados fora do pradão - IN62"
+              route="In62"
+              description="Resultados fora do padrão - IN62"
             />
           </WrapperItem>
         </ScrollWrapperStyle>
@@ -181,6 +187,7 @@ const WrapperItem = styled.View`
   padding-right: 8;
   padding-left: 8;
   padding-bottom: 8;
+  border-radius: ${props => props.theme.borderRadius};
 `;
 
 const WrapperBody = styled.View`

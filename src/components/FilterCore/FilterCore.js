@@ -39,7 +39,7 @@ const enhance = compose(
       }
     },
     onChange: e => {
-      console.log(e);
+      if (__DEV__) console.log("FilterCore.js - onChange", e);
       if (typeof onChange === 'function') {
         onChange(e);
       }
@@ -59,7 +59,7 @@ const enhance = compose(
   })),
   withHandlers({
     onChangeInit: ({range, setRange, onChange}) => e => {
-      console.log(e);
+      if (__DEV__) console.log("FilterCore.js - onChangeInit", e);
       setRange({...range, startDate: e.value});
       onChange({...range, startDate: e.value});
     },
@@ -86,7 +86,7 @@ export const FilterCore = enhance(
     isClose,
     inverted
   }) => {
-    console.log(range);
+    if (__DEV__) console.log("FilterCore.js - enhance", range);
     return (
       <Wrapper>
         {!isVisible && (
@@ -188,6 +188,7 @@ const WrapperView = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  border-radius: ${props => props.theme.borderRadius};
 `;
 
 const IconStyleLeft = styled.View`
@@ -227,6 +228,7 @@ const DetailsCalender = styled.View`
     css`
       background-color: ${props => props.theme.successMenu};
     `};
+  border-radius: ${props => props.theme.borderRadius};
 `;
 
 const RangeText = Text.extend`

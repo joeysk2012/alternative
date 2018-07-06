@@ -28,7 +28,7 @@ const enhance = compose(
 );
 
 export const Menu = enhance(({user}) => {
-  console.log(user);
+  if (__DEV__) console.log("Menu.js - enhance", user);
   return (
     <Wrapper>
       <StatusBarBackgroundColor />
@@ -44,21 +44,21 @@ export const Menu = enhance(({user}) => {
           icon="file-document"
         />
         <MenuItem
-          route="http://milk-web.brazilsouth.cloudapp.azure.com:3000/privacy-policy"
+          route="PrivacyPolicy"
           name="Política de privacidade"
           icon="lock"
-          link={true}
+          link={false}
         />
         <MenuItem
-          route="http://milk-web.brazilsouth.cloudapp.azure.com:3000/terms-of-use"
+          route="UseTerms"
           name="Termos de uso"
           icon="comment-text"
-          link={true}
+          link={false}
         />
         <MenuItem
           name="Manual do produtor"
           icon="book-open"
-          route="http://www.google.com.br"
+          route="http://milk-web.brazilsouth.cloudapp.azure.com:3000/manual-do-produtor"
           link={true}
         />
         <WrapperExit>

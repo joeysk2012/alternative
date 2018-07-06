@@ -1,6 +1,7 @@
 import React from 'react';
+//import { NetInfo } from 'react-native';
 import styled from 'styled-components/native';
-import {Navigation} from 'react-native-navigation';
+import { Navigation } from 'react-native-navigation';
 import {
 	compose,
 	withHandlers,
@@ -9,11 +10,11 @@ import {
 	withState,
 	lifecycle
 } from 'recompose';
-import {func, object} from 'prop-types';
-import {connect} from 'react-redux';
-import {reduxForm, Field, SubmissionError} from 'redux-form';
+import { func, object } from 'prop-types';
+import { connect } from 'react-redux';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 // import {  } from 'redux-form'
-import {Linking} from 'react-native';
+import { Linking } from 'react-native';
 import {
 	Wrapper,
 	Text,
@@ -23,16 +24,16 @@ import {
 	Button,
 	Image
 } from '~/components/shared';
-import {HomeRedirect} from '~/containers/Home';
-import {login} from '~/actions';
+import { HomeRedirect } from '~/containers/Home';
+import { login } from '~/actions';
 // QuickMenuItem
-import {theme, navigatorStyle, ImagesApp, Avatar} from '~/config';
-import {withNotifications} from '~/enhancers';
+import { theme, navigatorStyle, ImagesApp, Avatar } from '~/config';
+import { withNotifications } from '~/enhancers';
 
 const enhance = compose(
 	connect(
-		({user}) => ({user}),
-		{login}
+		({ user, backend }) => ({ user, backend }),
+		{ login }
 	),
 	withNotifications,
 	withState('userName', 'setUserName', ''),
@@ -57,33 +58,21 @@ const enhance = compose(
 					animationType: 'parallax'
 				}
 			});
+		},
+		goTo: ({ navigator, route }) => () => {
+			navigator.push({
+				screen: route,
+				navigatorStyle
+			});
 		}
 	}),
 	withHandlers({
-		loginIn: ({
-			navigator,
-			userName,
-			password,
-			login,
-			setLoading,
-			user,
-			loginSuccess,
-			showErrorNotification
-		}) => async () => {
-			setLoading(true);
-			const {token} = await login(userName, password);
-			setLoading(false);
-			if (token) {
-				loginSuccess();
-			} else {
-				showErrorNotification('Usuário ou senha incorretos');
-			}
-		},
 		submit: ({
 			setLoading,
 			loginSuccess,
 			showErrorNotification,
-			login
+			login,
+			backend
 		}) => async values => {
 			if (!values.user) {
 				throw new SubmissionError({
@@ -96,14 +85,43 @@ const enhance = compose(
 				});
 			}
 			setLoading(true);
-			const {token} = await login(values.user, values.password);
+			const { token } = await login(values.user, values.password);
 			setLoading(false);
-			if (token) {
+
+			if (token && token !== 401) {
 				loginSuccess();
 			} else {
-				showErrorNotification('Usuário ou senha incorretos');
+
+				if (__DEV__) console.log('token', token);
+
+				// Verificando se existem dados persistidos
+				var loginOk = false;
+				if (token !== 401)
+				{
+					if (backend.valor != '')
+					{
+						const json = JSON.parse(backend.valor);
+						if (__DEV__) console.log('Login.js - json', json);
+						if (json.token)
+						{
+							loginOk = true;
+							loginSuccess();
+						}
+					}
+				}
+
+				if (!loginOk)
+					showErrorNotification('Usuário ou senha incorretos');
 			}
 
+		},
+		forgotPassword: ({
+			navigator
+		}) => () => {
+			navigator.push({
+				screen: 'Password',
+				navigatorStyle
+			});
 		}
 	})
 );
@@ -111,8 +129,8 @@ const enhance = compose(
 const renderInputText = ({
 	placeholder,
 	secureTextEntry,
-	input: {onChange, value, onBlur, onFocus, ...restInput},
-	meta: {touched, error}
+	input: { onChange, value, onBlur, onFocus, ...restInput },
+	meta: { touched, error }
 }) => {
 	return (
 		<WrapperField>
@@ -124,6 +142,7 @@ const renderInputText = ({
 				onFocus={onFocus}
 				value={value}
 				{...restInput}
+				style={{ borderRadius: 5 }}
 			/>
 			<WrapperFieldError>
 				{touched && error ? (
@@ -138,16 +157,17 @@ const renderInputText = ({
 
 const LoginForm = enhance(
 	({
-		loginIn,
 		userName,
 		setUserName,
 		password,
 		setPassword,
 		isLoading,
 		handleSubmit,
-		submit
+		submit,
+		navigator,
+		forgotPassword
 	}) => {
-		console.log(handleSubmit);
+		if (__DEV__) console.log("Login.js - enhance", handleSubmit);
 		return (
 			<WrapperLogin loading={isLoading}>
 				<LogoNestleWrapper>
@@ -158,13 +178,14 @@ const LoginForm = enhance(
 				</LogoAppWrapper>
 				<WrapperLogo>
 					<WrapperBody>
-						<PasswordText align="center" secondary size={15}>
+						<PasswordText align="center" secondary size={15} >
 							Entre com seu usuário e senha:
 						</PasswordText>
 						<Field
 							name="user"
 							component={renderInputText}
 							placeholder="Usuário"
+							value={userName}
 						/>
 
 						<Field
@@ -172,9 +193,10 @@ const LoginForm = enhance(
 							name="password"
 							placeholder="Senha"
 							component={renderInputText}
+							value={password}
 						/>
 
-						<ButtonLogin info onPress={handleSubmit(submit)}>
+						<ButtonLogin info onPress={handleSubmit(submit)} style={{ borderRadius: 5 }}>
 							<Text weight="800" inverted>
 								ENTRAR
 							</Text>
@@ -183,20 +205,35 @@ const LoginForm = enhance(
 				</WrapperLogo>
 				<WrapperFooter>
 					<Password>
-						<Button icon onPress={() => Linking.openURL('http://www.google.com.br')}>
+						<Button icon onPress={handleSubmit(forgotPassword)}>
 							<Text secondary align="center" size={12}>
 								Esqueceu sua senha?
 							</Text>
 						</Button>
 					</Password>
 					<Info>
-						<Button icon>
+						<Button onPress={() => {
+							navigator.push({
+								screen: 'UseTerms',
+								navigatorStyle: navigatorStyle
+							})
+						}} icon>
 							<Text secondary align="center" size={12}>
 								Ao criar seu cadastro você concorda com os Termos de Uso e
+							</Text>
+						</Button>
+						<Button onPress={() => {
+							navigator.push({
+									screen: 'PrivacyPolicy',
+									navigatorStyle: navigatorStyle
+							})
+						}} icon>
+							<Text secondary align="center" size={12}>
 								Política de Privacidade da Nestlé
 							</Text>
 						</Button>
 					</Info>
+
 				</WrapperFooter>
 			</WrapperLogin>
 		);

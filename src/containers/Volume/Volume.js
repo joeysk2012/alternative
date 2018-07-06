@@ -23,11 +23,14 @@ import {
   Icon,
   DrawerButton,
   BarChart,
-  ScrollWrapper
+  ScrollWrapper,
+  BarChartLine
 } from '~/components/shared';
 
 import {VolumeDetails, VolumeAverage} from '~/components/Volume';
 import {FilterCore} from '~/components/FilterCore';
+import Intl from 'intl';
+require( 'intl/locale-data/jsonp/pt' );
 
 const enhance = compose(
   connect(
@@ -88,11 +91,14 @@ const enhance = compose(
     }) => e => {
       if (!isEmpty(e)) {
         const volume = researched.searchVolume.byIndex[e.x];
+
+        console.log('MES', moment().subtract(1, 'month').format('MMMM'))
         setCollected(volume.volume);
         setIsCollected(true);
         setSearchMonth(moment(volume.start_date).format('LL'));
         // setRange({label: });
         const details = researched.searchVolume.byIndex[e.x];
+        console.log('VOLUME', researched.searchVolume);
         setDetails(details);
         setClose(true);
       }
@@ -149,18 +155,22 @@ export const Volume = enhance(
           </WrapperHeader>
           <WrapperVolumeAverage>
             <VolumeAverage
-              average={researched.searchVolume.average}
+              average={researched.searchVolume.averageLastMonth}
               month={researched.searchVolume.currentMonth}
+              lastMonth={researched.searchVolume.lastMonth}
               total={researched.searchVolume.total}
               collected={collected}
               isCollected={isCollected}
             />
           </WrapperVolumeAverage>
           <WrapperBar>
-            <BarChart
+            <BarChartLine
               onSelect={onSelect}
               values={researched.searchVolume.items}
               valueFormatter={researched.searchVolume.period}
+              valueFormatterIndex={researched.searchVolume.byIndex}
+              media={70}
+              tipo={"volume"}
             />
           </WrapperBar>
           <WrapperDetails>
@@ -180,6 +190,7 @@ const WrapperBar = styled.View`
   height: 250;
   background-color: ${props => props.theme.bg};
   padding-top: 1;
+  border-radius: ${props => props.theme.borderRadius};
 `;
 
 const ScrollWrapperStyle = ScrollWrapper.extend`
