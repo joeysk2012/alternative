@@ -65,7 +65,7 @@ export const Home = enhance(({openMenu, user}) => {
         <WrapperCard>
               <Card type={'sdl'}>
                 <Users>
-                  <Text align="center" size={20} info>
+                  <Text align="center" size={20} info style={{marginTop: 22}}>
                     {user.name}
                   </Text>
                   <City size={12} info>
@@ -188,7 +188,7 @@ const Card = styled.View`
   padding-right: 20;
   border-radius: ${props => props.theme.borderRadius};
   padding-top: 50;
-  padding-bottom: ${props => props.type === 'sdl' ? 50 : 0};
+  padding-bottom: ${props => props.type === 'sdl' ? 40 : 0};
   elevation: 0.3;
 `;
 
@@ -237,6 +237,7 @@ const AvatarDefault = Image.extend`
   height: 92;
   border-radius: 10;
   z-index: 1;
+  box-shadow: 10px 5px 5px black;
 `;
 
 const Border = styled.View``;
