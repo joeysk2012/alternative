@@ -31,23 +31,28 @@ class CardIcon extends Component {
     switch (this.props.icon) {
     case 'certificate':
       return(
-        <Image source={require('../../images/ic_quality.png')} 
+        <Image source={require('../../images/ic_quality.png')}
         style={{ height: 50, width: 50, marginTop: 10 }} />
       );
     case 'beaker':
       return(
-        <Image source={require('../../images/ic_bottle.png')} 
+        <Image source={require('../../images/ic_bottle.png')}
         style={{ height: 50, width: 50, marginTop: 10 }} />
       );
     case 'currency-usd':
       return(
-        <Image source={require('../../images/ic_attach_money_black_24px.png')} 
+        <Image source={require('../../images/ic_attach_money_black_24px.png')}
         style={{ height: 50, width: 50, marginTop: 10 }} />
       );
     case 'file-document':
       return(
-        <Image source={require('../../images/ic_description_black_24px.png')} 
+        <Image source={require('../../images/ic_description_black_24px.png')}
         style={{ height: 50, width: 50, marginTop: 10 }} />
+      );
+    case 'list':
+      return(
+        <Image source={require('../../images/ic_list_numbered.png')}
+        style={{ height: 50, width: 50, marginTop: 10}} />
       );
     default:
       return false;
@@ -57,7 +62,7 @@ class CardIcon extends Component {
 
 const QuickMenuItemEnhance = enhance(props => {
   return (
-    <TouchableOpacityDefault {...props} onPress={props.goTo}>
+    <TouchableOpacityDefault {...props} onPress={props.goTo} type={props.type}>
       <WrapperIcon>
         <CardIcon icon={props.icon} />
       </WrapperIcon>
@@ -74,12 +79,12 @@ export const QuickMenuItem = styled(QuickMenuItemEnhance)``;
 
 const TouchableOpacityDefault = styled(TouchableOpacity)`
   align-items: center;
-  width: 49%;
+  width: ${props => props.type === 'sdl' ? '100%' : '49%'};
   border-radius: ${props => props.theme.borderRadius};
   margin-top: 8;
   box-shadow: 1px 0px 3px #0f0f0f;
   elevation: 3;
-  
+
   ${props =>
     props.danger &&
     css`

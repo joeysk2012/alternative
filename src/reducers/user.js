@@ -20,7 +20,8 @@ const getLogin = (state, {payload}) => {
     mail,
     name,
     recent,
-    properties: {city, cpf_cnpj}
+    properties: {city, cpf_cnpj},
+    type
   } = payload.data[0];
   newState.id = _id;
   newState.email = mail;
@@ -29,6 +30,7 @@ const getLogin = (state, {payload}) => {
   newState.city = city;
   newState.token = token;
   newState.cpf_cnpj = cpf_cnpj;
+  newState.type = type;
   newState.isLogin = true;
   if (__DEV__) console.log("user.js - getLogin", newState);
   return newState;

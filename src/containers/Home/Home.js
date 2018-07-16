@@ -57,27 +57,45 @@ const enhance = compose(
 );
 
 export const Home = enhance(({openMenu, user}) => {
-  return (
-    
-      <Wrapper secondary>
-        <TopBar
-          title="Home"
-          rightComponent={<Icon inverted name="bell" />}
-          leftComponent={<DrawerButton />}
-        />
-        <WrapperAvatar >
-          <ViewPin>
-            <ReactImage source={require('../../images/medalha-gold-v2.png')} 
-                        style={{width: 24, height: 24}} />
-            <View style={{ paddingLeft: 4}} >
-              <Text style={{color: '#febd00'}}>Ouro</Text>
-            </View>
-          </ViewPin>
-          <Border>
-            <AvatarDefault source={ImagesApp['avatarBlue']} />
-          </Border>
-        </WrapperAvatar>
-          <WrapperCard>
+  let HomeCard = {}
+  let Pin = {}
+
+  if(user.type === 1){
+      HomeCard =
+        <WrapperCard>
+              <Card type={'sdl'}>
+                <Users>
+                  <Text align="center" size={20} info>
+                    {user.name}
+                  </Text>
+                  <City size={12} info>
+                    SDL
+                  </City>
+                </Users>
+              </Card>
+              <WrapperColumn type={'sdl'}>
+                <QuickMenuItem
+                  route="Checklist"
+                  info
+                  icon="list"
+                  description="New Checklist"
+                  type="sdl"
+                />
+                <QuickMenuItem
+                  route="Sent"
+                  success
+                  icon="list"
+                  description="Sent Checklist"
+                  type="sdl"
+                />
+              </WrapperColumn>
+            </WrapperCard>
+
+      Pin = null
+
+  }else{
+    HomeCard =
+      <WrapperCard>
             <Card>
               <Users>
                 <Text align="center" size={20} info>
@@ -125,15 +143,42 @@ export const Home = enhance(({openMenu, user}) => {
               />
             </WrapperQuickMenu>
           </WrapperCard>
+
+    Pin = 
+      <ViewPin>
+          <ReactImage source={require('../../images/medalha-gold-v2.png')}
+                        style={{width: 24, height: 24}} />
+          <View style={{ paddingLeft: 4}} >
+            <Text style={{color: '#febd00'}}>Ouro</Text>
+        </View>
+      </ViewPin>
+  }
+
+
+  return (
+
+      <Wrapper secondary>
+        <TopBar
+          title="Home"
+          rightComponent={<Icon inverted name="bell" />}
+          leftComponent={<DrawerButton />}
+        />
+        <WrapperAvatar >
+          {Pin}
+          <Border>
+            <AvatarDefault source={ImagesApp['avatarBlue']} />
+          </Border>
+        </WrapperAvatar>
+          {HomeCard}
       </Wrapper>
-    
+
   );
 });
 
 const ViewPin = styled.View`
   padding-left: 60;
   flex-direction: row;
-  z-index: 10; 
+  z-index: 10;
   position: absolute;
 `;
 
@@ -143,6 +188,7 @@ const Card = styled.View`
   padding-right: 20;
   border-radius: ${props => props.theme.borderRadius};
   padding-top: 50;
+  padding-bottom: ${props => props.type === 'sdl' ? 50 : 0};
   elevation: 0.3;
 `;
 
@@ -235,3 +281,8 @@ const WrapperQuickMenu = styled.View`
   justify-content: space-between;
 `;
 
+const WrapperColumn = styled.View`
+  flex-direction: ${props => props.type === 'sdl' ? 'column' : 'row'}
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;

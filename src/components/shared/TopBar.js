@@ -26,6 +26,7 @@ export const TopBar = compose(
       <Title size={20} inverted font={'MarkaziText'} >
         {title}
       </Title>
+      {rightComponent}
     </Wrapper>
   </MainWrapper>
 ));
