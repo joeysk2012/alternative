@@ -328,7 +328,7 @@ export const Quality = enhance(
 				</WrapperFilter>
 				<WrapperBody>
 					<WrapperBar>
-						{!researched.searchQuality.items.lenght && (
+						{!researched.searchQuality.items.length && (
 							<BarChartLine
 								values={researched.searchQuality.items}
 								valueFormatter={researched.searchQuality.period}
