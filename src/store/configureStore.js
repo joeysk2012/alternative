@@ -20,7 +20,7 @@ import {
   volume,
   researched,
   user,
-  backend
+  backend,
 } from '../reducers';
 
 const config = {

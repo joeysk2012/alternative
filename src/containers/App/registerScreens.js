@@ -15,6 +15,8 @@ import UseTerms from '../UseTerms/UseTerms';
 import PrivacyPolicy from '../PrivacyPolicy/PrivacyPolicy';
 import GraficoTeste from '../GraficoTeste/GraficoTeste';
 import {Password} from '~/containers/Password';
+import Checklist from '~/containers/Checklist/Checklist.js';
+import {Sent} from '~/containers/Sent';
 
 export const registeredScreens = [];
 
@@ -35,6 +37,8 @@ export const registerScreens = (store, Provider) => {
   registerComponent('PrivacyPolicy', PrivacyPolicy);
   registerComponent('GraficoTeste', GraficoTeste)
   registerComponent('Password', Password);
+  registerComponent('Checklist', Checklist);
+    registerComponent('Sent', Sent);
 
   function registerComponent(name, screen) {
     // TODO: remover isso

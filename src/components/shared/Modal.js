@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {compose, withProps, withState, setPropTypes} from 'recompose';
+import {compose, withProps, withState, withHandlers, setPropTypes} from 'recompose';
 import {bool} from 'prop-types';
 import {Modal as ModalNative} from 'react-native';
 
@@ -14,10 +14,10 @@ const enhance = compose(
         close(e);
       }
     }
-  }))
+  })),
 );
 
-export const Modal = enhance(({children, visible, close}) => {
+export const Modal = enhance(({children, visible, close, handleClose}) => {
   return (
     <ModalNative
       animationType="fade"
