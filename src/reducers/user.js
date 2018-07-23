@@ -20,6 +20,7 @@ const getLogin = (state, {payload}) => {
     mail,
     name,
     recent,
+    properties: {city, cpf_cnpj},
     properties,
     type,
     checkList
@@ -29,8 +30,9 @@ const getLogin = (state, {payload}) => {
   newState.email = mail;
   newState.recent = recent;
   newState.name = name;
-  newState.city = properties[0].city;
+  newState.city = city;
   newState.token = token;
+  newState.cpf_cnpj = cpf_cnpj;
   newState.properties = properties;
   newState.type = type;
   newState.checklist = checkList
