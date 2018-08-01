@@ -1,0 +1,27 @@
+Files changed:
+1. src/containers/Home.js
+2. src/components/Home/QuickMenuItem.js
+3. src/components/images/ic_list_numbered.png
+4. src/components/shared/TopBar.js
+5. src/components/reducers/user.js
+6. src/containers/Sent
+7. src/containers/App/registerScreens.js
+
+New Checklist files:
+1. src/containers/Home.js
+5. src/components/reducers/user.js
+7. src/containers/App/registerScreens.js
+1. src/containers/Checklist
+2. src/components/DataModal
+3. src/components/shared/SelectData.js
+4. src/components/shared/DataPicker.js
+
+
+
+
+
+
+1a. figorue out warnings.
+1. Figure out box-shadows
+3. Figure out notifications
+4. only sarita Carneiero login????

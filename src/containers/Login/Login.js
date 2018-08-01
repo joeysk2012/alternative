@@ -26,7 +26,7 @@ import {
 } from '~/components/shared';
 import { HomeRedirect } from '~/containers/Home';
 import { login } from '~/actions';
-// QuickMenuItem
+import {QuickMenuItem} from '~/components/Home';
 import { theme, navigatorStyle, ImagesApp, Avatar } from '~/config';
 import { withNotifications } from '~/enhancers';
 
@@ -168,6 +168,7 @@ const LoginForm = enhance(
 		forgotPassword
 	}) => {
 		if (__DEV__) console.log("Login.js - enhance", handleSubmit);
+		 console.disableYellowBox = true; 
 		return (
 			<WrapperLogin loading={isLoading}>
 				<LogoNestleWrapper>
@@ -218,6 +219,7 @@ const LoginForm = enhance(
 								navigatorStyle: navigatorStyle
 							})
 						}} icon>
+
 							<Text secondary align="center" size={12}>
 								Ao criar seu cadastro você concorda com os Termos de Uso e
 							</Text>
@@ -232,8 +234,13 @@ const LoginForm = enhance(
 								Política de Privacidade da Nestlé
 							</Text>
 						</Button>
+				<QuickMenuItem
+                  route="Sent"
+                  description="Test Escape Hatch"
+                  icon="beaker"
+                  type="sdl"
+                />
 					</Info>
-
 				</WrapperFooter>
 			</WrapperLogin>
 		);

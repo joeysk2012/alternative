@@ -25,3 +25,5 @@ export * from './LargeTopBar';
 export * from './BarChartLine';
 export * from './SelectData';
 export * from './DataPicker';
+export * from './IconCount';
+export * from './NotificationCard';

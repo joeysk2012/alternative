@@ -14,7 +14,7 @@ import moment from 'moment';
 import { FilterCore } from '~/components/FilterCore';
 import { size, isEmpty } from 'lodash';
 // import {LineChart} from 'react-native-charts-wrapper';
-import { processColor, Picker, View, Image } from 'react-native';
+import { processColor, Picker, View, Image, Text,  } from 'react-native';
 // Local
 import {
   Wrapper,
@@ -30,12 +30,12 @@ import { getPrices } from '~/actions';
 import {ImagesApp} from '~/config';
 import {SelectData} from '~/components/shared/SelectData';
 import {Button} from '~/components/shared/Button';
+import IconBadge from 'react-native-icon-badge';
+import {ModalExample} from '~/components/Modal'
+import {IconCount} from '~/components/shared';
+import {login} from '~/actions';
 
 const enhance = compose(
-  connect(
-    ({ price, researched }) => ({ price, researched }),
-    { getPrices }
-  ),
   withState('details', 'setDetails', {}),
   withState('isFilter', 'setFilter', true),
   withState('isClose', 'setClose', false),
@@ -74,22 +74,41 @@ export const Sent = enhance(
     researched,
     onChangeProperty,
     onChangeChecklist,
+    navigator
 
   }) => {
+    const user = {'notifications' : [{'title' : 'hello', 'message' : 'this is the milk-app'}] }
     return (
       <Wrapper secondary>
         <TopBar
-          title="Checklist"
+          title="Testpage"
           rightComponent={<Icon inverted name="bell" />}
           leftComponent={<DrawerButton />}
         />
         <ScrollWrapperStyle>
           <Image source={require('../../images/avatar_blue.png')} style={{width : 100, height : 100}} />
+
         <View style={{width : 100, height : 100, backgroundColor :'red', elevation : 25}} />
-        <SelectWrapper> 
-          <SelectData onPress={onChangeProperty} title="Properties" ButtonText="Selecionar" firstOption="Select Farm" />
-          <SelectData onPress={onChangeChecklist} title="Checklists" ButtonText="Selecionar" firstOption="Select Checklist" />
-        </ SelectWrapper>
+          <View style={{flexDirection: 'row', height: 100, backgroundColor :'red',alignItems: 'center',justifyContent: 'center',}}>
+            <IconBadge
+              MainElement={
+                <Icon inverted name="bell" size={35} />
+              }
+              BadgeElement={
+                <Text style={{color:'#FFFFFF'}}>5</Text>
+              }
+              IconBadgeStyle={
+                {width:20,
+                height:20,
+                backgroundColor: '#FF00EE'}
+              }
+              />
+              <ModalExample />
+              <IconCount count={user.notifications.length} 
+                notifications={user.notifications} 
+                navigator={navigator} 
+              />
+          </View>
         </ScrollWrapperStyle>
         <Button />
       </Wrapper>
