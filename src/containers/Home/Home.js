@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image as ReactImage, YellowBox } from 'react-native';
+import { View, Image as ReactImage, YellowBox, BackHandler } from 'react-native';
 import styled from 'styled-components/native';
 import {
   compose,
@@ -51,8 +51,8 @@ const enhance = compose(
     }
   }),
   lifecycle({
-    async componentWillMount() {
-      // await this.props.login();
+    componentDidMount(
+    ) {
     }
   })
 );
@@ -164,7 +164,7 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
           title="Home"
           rightComponent=
             {
-              <IconCount count={notification.length} 
+              <IconCount count={notification.filter(item => !item.readAt).length} 
                 navigator={navigator} 
               />
             }
@@ -178,7 +178,6 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
         </WrapperAvatar>
           {HomeCard}
       </Wrapper>
-
   );
 });
 

@@ -6,37 +6,44 @@ const INITIAL_STATE = []
 const getNotifications = (state, {payload}) => {
   const notifications = payload.data[0].notifications;
   const newState = notifications.map(note => {
-    note.confirmed = false;
-    note.read = false;
-    note.deleted = false;
+    if(!note.confirmation){
+      note.confirmation = {};
+    }
+    if(!note.readAt){
+      note.readAt = '';
+    }
+    if(!note.deletedAt){
+      note.deletedAt = '';
+    }
+    
     return note;
   })
   console.log("notification.js - getNote", newState);
-  return newState
+  return newState;
 };
 
 const deleteMessage = (state, {payload}) => {
     id = payload.id;
-    console.log("notification.js - updateMessages", state);
+    console.log("notification.js - deleteMessages", state);
     return state.filter((note) => note._id !== id);
 };
 
 const addMessage = (state, {payload}) => {
     const note = payload.data;
-    return state.concat(note)
+    return state.concat(note);
 };
 
 const updateMessage = (state, {payload}) => {
-    let newState = cloneDeep(state)
+    let newState = cloneDeep(state);
     let id = payload.id;
     let type = payload.type;
-    let bool = payload.bool;
+    let data = payload.data;
     forEach(newState, note => {
       if (note._id === id) {
         if(type === 'read'){
-            note['read'] = bool;
+            note['readAt'] = data;
         }else if(type === 'confirm'){
-            note['confirmed'] = bool;
+            note['confirmation'] = data;
         }else{
           note = note;
         }; 
@@ -52,11 +59,11 @@ export const notification = (state = INITIAL_STATE, action) => {
     case 'LOGIN_SUCCESS':
       return getNotifications(state, action);
     case 'DELETE_NOTIFICATION':
-      return deleteMessage(state, action)
+      return deleteMessage(state, action);
     case 'ADD_NOTIFICATION':
-      return addMessage(state, action)
+      return addMessage(state, action);
     case 'UPDATE_NOTIFICATION':
-      return updateMessage(state, action)
+      return updateMessage(state, action);
     default:
       return state;
   }

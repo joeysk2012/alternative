@@ -8,7 +8,6 @@ import Swipeout from 'react-native-swipeout';
 // local
 import {Text, IconUri, DatePicker, Icon, ScrollWrapper, Image, Button} from '~/components/shared';
 import {getNavigatorContext} from '~/enhancers';
-import {DataModal} from '~/components/DataModal';
 import moment from 'moment';
 
 export const NotificationCard = class NotificationItem extends Component {
@@ -21,34 +20,38 @@ export const NotificationCard = class NotificationItem extends Component {
   }
 
   formatDate(day){
-    let str = ""
-    let yyyy = day.getFullYear()
-    let mm = day.getMonth()
-    let dd = day.getDate()
-    let hour = day.getHours()
-    let min = day.getMinutes()
-    str = yyyy + "-" + mm + "-" + dd + " - " + hour + ":" + min   
-    return str
+    let str = "";
+    let yyyy = day.getFullYear();
+    let mm = day.getMonth() + 1;
+    let dd = day.getDate();
+    let hour = day.getHours();
+    let min = day.getMinutes();
+    str = yyyy + "-" + mm + "-" + dd + " - " + hour + ":" + min;   
+    return str;
   }
 
   handleExpand(id, expanded){
-    this.props.onRead(id, true);
+    let datetime = new Date().toISOString()
+    this.props.onRead(id, datetime);
     this.props.onOpened(id);
   }
 
   handleDelete(id){
-    this.props.onDelete(id, true)
+    let datetime = new Date().toISOString()
+    this.props.onDelete(id, datetime);
   }
 
   handleConfirm(id){
-    this.props.onConfirmed(id, true);
+    let datetime = new Date().toISOString()
+    let obj = {'ip' : '', 'confirmedAt' : datetime, position : {'Longitude' : '', 'Latitute' : ''}}
+    this.props.onConfirmed(id, obj);
   }
 
   render() {
     let NotificationIcon;
     let NotificationType;
     let Expanded;
-    const CurrentComp = this
+    const CurrentComp = this;
 
     if(this.props.type === 'Alert' && this.props.read){
       NotificationIcon = <Image source={require('../../images/ic_warning_yellow_24px.png')} 
@@ -81,14 +84,14 @@ export const NotificationCard = class NotificationItem extends Component {
       NotificationType = <TextQuality>Checklist</TextQuality>
 
     }else if(this.props.type === 'InactiveIssue' && this.props.read){
-      NotificationIcon = <Image source={require('../../images/baseline-insert_comment-24px.png')} 
+      NotificationIcon = <Image source={require('../../images/ic_warning_yellow_24px.png')} 
         style={{ height: 18, width: 18}} />
-      NotificationType = <TextInactive>Importante</TextInactive>
+      NotificationType = <TextAlert>Importante</TextAlert>
 
     }else if(this.props.type === 'InactiveIssue' && !this.props.read){
       NotificationIcon = <Image source={require('../../images/warning_new.png')} 
         style={{ height: 18, width: 18}} />
-      NotificationType = <TextInactive>Importante</TextInactive>
+      NotificationType = <TextAlert>Importante</TextAlert>
 
     }else{
       NotificationIcon = <Image source={require('../../images/baseline-insert_comment-24px.png')} 
@@ -141,7 +144,7 @@ export const NotificationCard = class NotificationItem extends Component {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <View>
                     <MessageSender read={this.props.read}>
-                        {"Name of Sender"}
+                        {"Nestlé"}
                     </MessageSender>
                     <MessageTitle>
                         {this.props.title}
@@ -168,7 +171,7 @@ const Overall = styled.View`
 const WrapperCard = styled.View`
   background-color: ${props => props.theme.bg};
   height: ${props => ((props.opened && props.confirmed) || (props.opened && props.type==='IncomingMessages')) ? 
-  (props.len * 0.4 + 175 - 40) : (props.opened ? (props.len * 0.3 + 175) : 94) }
+  (props.len * 0.4 + 145 - 35) : (props.opened ? (props.len * 0.4 + 145 + 35) : 94) };
 `;
 
 const WrapperContent= styled.View`

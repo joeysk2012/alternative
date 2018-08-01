@@ -21,7 +21,6 @@ export const IconCount = class IconCount extends Component {
         screen: 'Notifications',
         navigatorStyle
       });
-
   }
 
   render() {

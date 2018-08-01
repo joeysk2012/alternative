@@ -16,6 +16,20 @@ New Checklist files:
 3. src/components/shared/SelectData.js
 4. src/components/shared/DataPicker.js
 
+New Notificaitons files:
+1. src/containers/notifications
+2. src/components/shared/NotificaitonCard.js
+3. src/components/shared/index.js
+4. src/actions/index.js
+5. src/actions/notification.js
+6. src/reducers/index.js
+7. src/reducers/notification.js
+8. src/store
+9. package.json
+10. src/containers/App/registerScreens.js
+11. src/containers/Home/Home.js
+12.src/components/shared/IconCount.js
+13.src/images
 
 
 
