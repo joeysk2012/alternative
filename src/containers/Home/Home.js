@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image as ReactImage, YellowBox } from 'react-native';
+import { View, Image as ReactImage, YellowBox, BackHandler } from 'react-native';
 import styled from 'styled-components/native';
 import {
   compose,
@@ -22,7 +22,8 @@ import {
   IconUri,
   DrawerButton,
   Image,
-  ScrollWrapper
+  ScrollWrapper,
+  IconCount
 } from '~/components/shared';
 import {RecentNumbers, QuickMenuItem} from '~/components/Home';
 import {ImagesApp} from '~/config';
@@ -34,7 +35,7 @@ require( 'intl/locale-data/jsonp/pt' );
 
 const enhance = compose(
   connect(
-    ({user}) => ({user}),
+    ({user, notification}) => ({user, notification}),
     {login}
   ),
   withHandlers({
@@ -50,13 +51,13 @@ const enhance = compose(
     }
   }),
   lifecycle({
-    async componentWillMount() {
-      // await this.props.login();
+    componentDidMount(
+    ) {
     }
   })
 );
 
-export const Home = enhance(({openMenu, user}) => {
+export const Home = enhance(({openMenu, user, notification, navigator}) => {
   let HomeCard = {}
   let Pin = {}
 
@@ -152,6 +153,7 @@ export const Home = enhance(({openMenu, user}) => {
             <Text style={{color: '#febd00'}}>Ouro</Text>
         </View>
       </ViewPin>
+
   }
 
 
@@ -160,7 +162,12 @@ export const Home = enhance(({openMenu, user}) => {
       <Wrapper secondary>
         <TopBar
           title="Home"
-          rightComponent={<Icon inverted name="bell" />}
+          rightComponent=
+            {
+              <IconCount count={notification.filter(item => !item.readAt).length} 
+                navigator={navigator} 
+              />
+            }
           leftComponent={<DrawerButton />}
         />
         <WrapperAvatar >
@@ -171,7 +178,6 @@ export const Home = enhance(({openMenu, user}) => {
         </WrapperAvatar>
           {HomeCard}
       </Wrapper>
-
   );
 });
 
