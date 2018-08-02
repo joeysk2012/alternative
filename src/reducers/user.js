@@ -23,7 +23,6 @@ const getLogin = (state, {payload}) => {
     properties: {city, cpf_cnpj},
     properties,
     type,
-    notifications,
     checkList
 
   } = payload.data[0];
@@ -36,10 +35,9 @@ const getLogin = (state, {payload}) => {
   newState.cpf_cnpj = cpf_cnpj;
   newState.properties = properties;
   newState.type = type;
-  newState.notifications = notifications;
-  newState.checklist = checkList;
+  newState.checklist = checkList
   newState.isLogin = true;
-  console.log("user.js - getLogin", newState);
+  if (__DEV__) console.log("user.js - getLogin", newState);
   return newState;
 };
 

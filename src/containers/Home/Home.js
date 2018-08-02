@@ -22,8 +22,7 @@ import {
   IconUri,
   DrawerButton,
   Image,
-  ScrollWrapper,
-  IconCount
+  ScrollWrapper
 } from '~/components/shared';
 import {RecentNumbers, QuickMenuItem} from '~/components/Home';
 import {ImagesApp} from '~/config';
@@ -35,7 +34,7 @@ require( 'intl/locale-data/jsonp/pt' );
 
 const enhance = compose(
   connect(
-    ({user, notification}) => ({user, notification}),
+    ({user}) => ({user}),
     {login}
   ),
   withHandlers({
@@ -57,7 +56,7 @@ const enhance = compose(
   })
 );
 
-export const Home = enhance(({openMenu, user, notification, navigator}) => {
+export const Home = enhance(({openMenu, user}) => {
   let HomeCard = {}
   let Pin = {}
 
@@ -153,7 +152,6 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
             <Text style={{color: '#febd00'}}>Ouro</Text>
         </View>
       </ViewPin>
-
   }
 
 
@@ -162,12 +160,7 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
       <Wrapper secondary>
         <TopBar
           title="Home"
-          rightComponent=
-            {
-              <IconCount count={notification.length} 
-                navigator={navigator} 
-              />
-            }
+          rightComponent={<Icon inverted name="bell" />}
           leftComponent={<DrawerButton />}
         />
         <WrapperAvatar >

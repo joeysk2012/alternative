@@ -17,7 +17,6 @@ import GraficoTeste from '../GraficoTeste/GraficoTeste';
 import {Password} from '~/containers/Password';
 import Checklist from '~/containers/Checklist/Checklist.js';
 import {Sent} from '~/containers/Sent';
-import Notifications from '~/containers/Notifications/Notifications.js';
 
 export const registeredScreens = [];
 
@@ -39,8 +38,7 @@ export const registerScreens = (store, Provider) => {
   registerComponent('GraficoTeste', GraficoTeste)
   registerComponent('Password', Password);
   registerComponent('Checklist', Checklist);
-  registerComponent('Sent', Sent);
-  registerComponent('Notifications', Notifications);
+    registerComponent('Sent', Sent);
 
   function registerComponent(name, screen) {
     // TODO: remover isso
