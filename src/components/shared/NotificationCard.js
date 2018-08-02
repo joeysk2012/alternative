@@ -171,7 +171,7 @@ const Overall = styled.View`
 const WrapperCard = styled.View`
   background-color: ${props => props.theme.bg};
   height: ${props => ((props.opened && props.confirmed) || (props.opened && props.type==='IncomingMessages')) ? 
-  (props.len * 0.4 + 145 - 35) : (props.opened ? (props.len * 0.4 + 145 + 35) : 94) };
+  (props.len * 0.33 + 150 - 32) : (props.opened ? (props.len * 0.33 + 150 + 32) : 94) };
 `;
 
 const WrapperContent= styled.View`
