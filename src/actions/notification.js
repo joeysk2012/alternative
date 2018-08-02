@@ -23,13 +23,13 @@ export const addNotification = (id, data) => {
 };
 
 /*the types are 'read' and 'confirm'*/
-export const updateNotification = (id, type, data) => {
+export const updateNotification = (id, type, bool) => {
   return {
     type: 'UPDATE_NOTIFICATION',
     payload: {
     	id,
       type,
-      data
+      bool
     }
   };
 };
