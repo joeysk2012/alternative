@@ -26,6 +26,7 @@ import {
   IconCount
 } from '~/components/shared';
 import {RecentNumbers, QuickMenuItem} from '~/components/Home';
+import {AvatarUpload} from '~/components/AvatarUpload';
 import {ImagesApp} from '~/config';
 import {login} from '~/actions';
 import {isNumber} from '~/utils';
@@ -99,9 +100,14 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
       <WrapperCard>
             <Card>
               <Users>
-                <Text align="center" size={20} info>
-                  {user.name}
-                </Text>
+                  <FirstLine>
+                    <View style={{paddingLeft : 15}}>
+                      <Text align="center" size={20} info>
+                        {user.name}
+                      </Text>
+                    </View>
+                    <AvatarUpload />
+                  </FirstLine>
                 <City size={12} info>
                   {user.city}
                 </City>
@@ -180,6 +186,12 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
       </Wrapper>
   );
 });
+
+const FirstLine = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
 
 const ViewPin = styled.View`
   padding-left: 60;
