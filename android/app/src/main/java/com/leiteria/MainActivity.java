@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.support.v4.content.ContextCompat;
 
 public class MainActivity extends SplashActivity {
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

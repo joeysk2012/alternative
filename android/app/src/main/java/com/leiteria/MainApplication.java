@@ -19,6 +19,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.zyu.ReactNativeWheelPickerPackage;
 import com.github.wuxudong.rncharts.MPAndroidChartPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.imagepicker.ImagePickerPackage;
 
 public class MainApplication extends NavigationApplication {
 
@@ -30,6 +31,7 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+         new ImagePickerPackage(),
             new RNTextInputResetPackage(),
             new SvgPackage(),
         new VectorIconsPackage(),

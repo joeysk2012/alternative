@@ -7,17 +7,46 @@ import { View, Image, TouchableOpacity} from 'react-native';
 // Local
 import {ImagesApp} from '~/config';
 
+var ImagePicker = require('react-native-image-picker');
+
+var options = {
+  title: 'Select Avatar',
+  storageOptions: {
+    skipBackup: true,
+    cameraRoll: true
+  }
+};
+
+
 class Upload extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      image: ''
-    };
     this.handleUpload = this.handleUpload.bind(this);
   }
 
 
   handleUpload(){
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+    
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = {uri: response.uri};
+    
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        console.log(response.uri)
+        this.props.onAvatarChange(source)
+      }
+    });
 
   }
 

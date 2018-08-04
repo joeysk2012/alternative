@@ -39,6 +39,7 @@ const enhance = compose(
     ({user, notification}) => ({user, notification}),
     {login}
   ),
+  withState('avatar', 'setAvatar', ImagesApp['avatarBlue']),
   withHandlers({
     openMenu: ({navigator}) => () => {
       navigator.toggleDrawer({
@@ -49,16 +50,20 @@ const enhance = compose(
     },
     handleClearSearchUser: ({clear}) => () => {
       clear();
-    }
+    },
   }),
   lifecycle({
-    componentDidMount(
+    componentDidMount(){
+      console.log("The initial HOC is" + this.props.avatar)
+    },
+    componentDidUpdate(
     ) {
+      console.log("From the HOC" + this.props.avatar)
     }
   })
 );
 
-export const Home = enhance(({openMenu, user, notification, navigator}) => {
+export const Home = enhance(({openMenu, avatar, setAvatar, handleAvatarChange, user, notification, navigator}) => {
   let HomeCard = {}
   let Pin = {}
 
@@ -106,7 +111,7 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
                         {user.name}
                       </Text>
                     </View>
-                    <AvatarUpload />
+                    <AvatarUpload onAvatarChange = {setAvatar}/>
                   </FirstLine>
                 <City size={12} info>
                   {user.city}
@@ -164,7 +169,6 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
 
 
   return (
-
       <Wrapper secondary>
         <TopBar
           title="Home"
@@ -179,7 +183,7 @@ export const Home = enhance(({openMenu, user, notification, navigator}) => {
         <WrapperAvatar >
           {Pin}
           <Border>
-            <AvatarDefault source={ImagesApp['avatarBlue']} />
+            {avatar === 1 ? <AvatarDefault source={avatar} /> : <AvatarRound source={avatar} />}
           </Border>
         </WrapperAvatar>
           {HomeCard}
@@ -258,7 +262,17 @@ const AvatarDefault = Image.extend`
   box-shadow: 10px 5px 5px black;
 `;
 
-const Border = styled.View``;
+const AvatarRound = Image.extend`
+  width: 92;
+  height: 92;
+  border-radius: 46;
+  z-index: 1;
+  box-shadow: 10px 5px 5px black;
+`;
+
+const Border = styled.View`
+
+`;
 const Header = styled.View`
   z-index: 2;
   height: 40;
